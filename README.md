@@ -62,6 +62,7 @@ This provides assistance without requiring the user to interrupt the presentatio
 
 The overall processing pipeline is:
 
+```text
 Webcam
    ↓
 OpenCV
@@ -77,7 +78,7 @@ PyAutoGUI
 (Keyboard Events)
    ↓
 Presentation Software
-
+```
 
 ### Step-by-step flow
 
@@ -180,6 +181,7 @@ For swipe detection, the application tracks the movement of the **index fingerti
 
 Conceptually:
 
+```text
 Previous X Position
         ↓
 Current X Position
@@ -189,7 +191,7 @@ Calculate Horizontal Displacement
 Compare Against Threshold
         ↓
 Left Swipe / Right Swipe
-
+```
 
 A sufficiently large positive or negative displacement is interpreted as a swipe.
 
@@ -203,39 +205,41 @@ To prevent this, the application uses a cooldown period between actions.
 
 Conceptually:
 
-
+```text
 Current Time - Last Action Time > Cooldown
-
+```
 
 Only when the cooldown period has elapsed is another presentation command allowed.
 
 This improves stability and prevents unintended repeated slide changes.
 
-
+---
 
 ## ⚙️ MediaPipe Configuration
 
 The project processes a single hand at a time:
 
+```python
 hands = mp_hands.Hands(
     static_image_mode=False,
     max_num_hands=1,
     min_detection_confidence=0.7,
     min_tracking_confidence=0.7
 )
-
+```
 
 ### Configuration
 
 | Parameter                  |   Value | Purpose                                           |
 | -------------------------- | ------: | ------------------------------------------------- |
-| static_image_mode          |   False | Enables video/live-stream processing and tracking |
-|  max_num_hands             |     1   | Processes one hand at a time                      |
-|  min_detection_confidence  |     0.7 | Filters low-confidence hand detections            |
-|  min_tracking_confidence   |    0.7  | Helps maintain stable hand tracking               |
+| `static_image_mode`        | `False` | Enables video/live-stream processing and tracking |
+| `max_num_hands`            |     `1` | Processes one hand at a time                      |
+| `min_detection_confidence` |   `0.7` | Filters low-confidence hand detections            |
+| `min_tracking_confidence`  |   `0.7` | Helps maintain stable hand tracking               |
 
 > The confidence values are detection/tracking thresholds and should not be interpreted as model accuracy percentages.
 
+---
 
 ## 🛠️ Technology Stack
 
@@ -253,6 +257,7 @@ hands = mp_hands.Hands(
 
 ## 🏗️ System Architecture
 
+```text
 ┌──────────────────────┐
 │       Webcam         │
 └──────────┬───────────┘
@@ -284,10 +289,13 @@ hands = mp_hands.Hands(
 │ Presentation Software│
 │ PowerPoint / Slides  │
 └──────────────────────┘
+```
 
+---
 
 ## 📁 Project Structure
 
+```text
 gesture-control/
 │
 ├── slide_control.py
@@ -296,7 +304,7 @@ gesture-control/
 ├── finger_count.py
 ├── requirements.txt
 └── README.md
-
+```
 
 ### File Description
 
@@ -315,34 +323,36 @@ gesture-control/
 
 ### 1. Clone the Repository
 
-
+```bash
 git clone <your-repository-url>
 cd gesture-control
-
+```
 
 ### 2. Create a Virtual Environment
 
+```bash
 python3.11 -m venv gesture_env
+```
 
 ### 3. Activate the Environment
 
 #### Linux / macOS
 
-
+```bash
 source gesture_env/bin/activate
-
+```
 
 #### Windows
 
-
+```bash
 gesture_env\Scripts\activate
-
+```
 
 ### 4. Install Dependencies
 
-
+```bash
 pip install -r requirements.txt
-
+```
 
 ### 5. Start Your Presentation
 
@@ -352,9 +362,9 @@ pip install -r requirements.txt
 
 ### 6. Run the Application
 
-
+```bash
 python slide_control.py
-
+```
 
 ### 7. Activate Gesture Control
 
@@ -362,7 +372,8 @@ Show an **open palm** to activate the gesture controls.
 
 You can then use the supported gestures to navigate the presentation.
 
-=
+---
+
 ## 💻 System Requirements
 
 * Python 3.11
@@ -375,7 +386,7 @@ You can then use the supported gestures to navigate the presentation.
 
 ## 📊 Current Gesture Pipeline
 
-
+```text
 Camera Frame
      ↓
 RGB Conversion
@@ -393,7 +404,7 @@ Activation Check
 Cooldown Check
      ↓
 Presentation Command
-
+```
 
 ---
 
